@@ -30,6 +30,9 @@ return {
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
+        breakindent = true, -- enable break indent
+        breakindentopt = { "shift:2", "sbr" }, -- set the shift in number of characters
+        cursorline = true, -- highlight which line the cursor is on
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
