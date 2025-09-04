@@ -32,7 +32,7 @@ return {
       },
       -- disable formatting capabilities for the listed language servers
       disabled = {
-        -- "lua_ls", -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
+        "lua_ls", -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
       },
       -- default format timeout
       timeout_ms = 1000,
