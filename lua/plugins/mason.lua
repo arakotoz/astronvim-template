@@ -7,10 +7,20 @@ return {
     "mason-org/mason-lspconfig.nvim",
     -- overrides `require("mason-lspconfig").setup(...)`
     opts = {
-      ensure_installed = {
-        "lua_ls",
-        -- add more arguments for adding more language servers
-      },
+      -- ensure_installed = {
+      -- list of language servers
+      -- except the ones used for LaTeX and CMake
+      -- "basedpyright", -- python static type checker (already in community.lua)
+      -- "bashls", -- bash (already in community.lua)
+      -- "clangd", -- C++ (already in community.lua)
+      -- "jsonls", -- json (already in community.lua)
+      -- "lua_ls", -- lua (already in community.lua)
+      -- "marksman", -- markdown (already in community.lua)
+      -- "neocmake", -- cmake (already in community.lua)
+      -- "ruff", -- python linter and code formatter written in rust (already in community.lua)
+      -- "taplo", -- TOML (already in community.lua)
+      -- "yamlls", -- YAML (already in community.lua)
+      -- },
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
@@ -33,8 +43,10 @@ return {
     -- overrides `require("mason-nvim-dap").setup(...)`
     opts = {
       ensure_installed = {
-        "python",
-        -- add more arguments for adding more debuggers
+        -- list of debuggers
+        "bash-debug-adapter", -- bash
+        "codelldb", -- C, C++, rust
+        -- "debugpy", -- python (already in community.lua)
       },
     },
   },

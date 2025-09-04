@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -29,6 +27,7 @@ return {
         -- disable format on save for specified filetypes
         ignore_filetypes = {
           "cmake",
+          "bash",
         },
       },
       -- disable formatting capabilities for the listed language servers
@@ -42,7 +41,16 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      -- "pyright"
+      "basedpyright", -- python static type checker
+      "bashls", -- bash
+      "clangd", -- C++
+      "jsonls", -- json
+      "lua_ls", -- lua
+      "marksman", -- markdown
+      "neocmake", -- cmake
+      "ruff_lsp", -- python linter and code formatter written in rust
+      "taplo", -- TOML
+      "yamlls", -- YAML
     },
     -- configure language server for `lspconfig` (`:h lspconfig-setup`)
     ---@diagnostic disable: missing-fields
