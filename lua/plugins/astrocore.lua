@@ -25,14 +25,46 @@ return {
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
+        number = true, -- make line number default
+        relativenumber = true, -- use relative line number
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
         breakindent = true, -- enable break indent
         breakindentopt = { "shift:2", "sbr" }, -- set the shift in number of characters
         cursorline = true, -- highlight which line the cursor is on
+
+        -- inspired by https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+
+        -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+        ignorecase = true,
+        smartcase = true,
+
+        -- Configure how new splits should be opened
+        splitright = true,
+        splitbelow = true,
+
+        -- Sets how neovim will display certain whitespace characters in the editor.
+        --  See `:help 'list'`
+        --  and `:help 'listchars'`
+        --
+        --  Notice listchars is set using `vim.opt` instead of `vim.o`.
+        --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
+        --   See `:help lua-options`
+        --   and `:help lua-options-guide`
+        list = true,
+        listchars = { tab = "» ", trail = "·", nbsp = "␣" },
+
+        -- Preview substitutions live, as you type!
+        inccommand = "split",
+
+        -- Minimal number of screen lines to keep above and below the cursor
+        scrolloff = 10,
+
+        -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
+        -- instead raise a dialog asking if you wish to save the current file(s)
+        -- See `:help 'confirm'`
+        confirm = true,
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
