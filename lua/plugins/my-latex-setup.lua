@@ -10,13 +10,13 @@ return {
         "tectonic",
         "bibtex-tidy",
         "tex-fmt",
+        "latexindent",
       },
     },
   },
   -- mason-lspconfig
   {
-    "williamboman/mason-lspconfig.nvim",
-    --    "neovim/nvim-lspconfig",
+    "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
         "texlab",
