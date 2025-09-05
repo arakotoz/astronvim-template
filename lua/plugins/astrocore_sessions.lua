@@ -17,7 +17,7 @@ return {
       -- Configure auto saving
       autosave = {
         last = true, -- auto save last session
-        cwd = true, -- auto save session for each working directory
+        cwd = false, -- disable the auto-saving of directory sessions
       },
       -- Patterns to ignore when saving sessions
       ignore = {
