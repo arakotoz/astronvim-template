@@ -41,30 +41,30 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      "basedpyright", -- python static type checker
-      "bashls", -- bash
-      "clangd", -- C++
-      "jsonls", -- json
+      --   "basedpyright", -- python static type checker
+      --   "bashls", -- bash
+      --   "clangd", -- C++
+      --   "jsonls", -- json
       "lua_ls", -- lua
-      "marksman", -- markdown
-      "neocmake", -- cmake
-      "ruff_lsp", -- python linter and code formatter written in rust
-      "taplo", -- TOML
-      "yamlls", -- YAML
+      --   "marksman", -- markdown
+      --   "neocmake", -- cmake
+      --   "ruff_lsp", -- python linter and code formatter written in rust
+      --   "taplo", -- TOML
+      --   "yamlls", -- YAML
     },
     -- configure language server for `lspconfig` (`:h lspconfig-setup`)
     ---@diagnostic disable: missing-fields
     config = {
-      clangd = {
-        capabilities = {
-          offsetEncoding = "utf-8",
-        },
-      },
+      --   clangd = {
+      --     capabilities = {
+      --       offsetEncoding = "utf-8",
+      --     },
+      --   },
     },
     -- customize how language servers are attached
     handlers = {
       -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
-      function(server, opts) require("lspconfig")[server].setup(opts) end,
+      -- function(server, opts) require("lspconfig")[server].setup(opts) end,
 
       -- the key is the server that is being setup with `lspconfig`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
