@@ -1,5 +1,4 @@
 if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -20,36 +19,53 @@ return {
     formatting = {
       -- control auto formatting on save
       format_on_save = {
-        enabled = true, -- enable or disable format on save globally
-        allow_filetypes = { -- enable format on save for specified filetypes only
+        -- enable or disable format on save globally
+        enabled = true,
+        -- enable format on save for specified filetypes only
+        allow_filetypes = {
           -- "go",
         },
-        ignore_filetypes = { -- disable format on save for specified filetypes
-          -- "python",
+        -- disable format on save for specified filetypes
+        ignore_filetypes = {
+          "cmake",
+          "bash",
         },
       },
-      disabled = { -- disable formatting capabilities for the listed language servers
-        -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
-        -- "lua_ls",
+      -- disable formatting capabilities for the listed language servers
+      disabled = {
+        "lua_ls", -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
       },
-      timeout_ms = 1000, -- default format timeout
-      -- filter = function(client) -- fully override the default formatting function
-      --   return true
-      -- end
+      -- default format timeout
+      timeout_ms = 1000,
+      -- fully override the default formatting function
+      filter = function(client) return true end,
     },
     -- enable servers that you already have installed without mason
     servers = {
-      -- "pyright"
+      --   "basedpyright", -- python static type checker
+      --   "bashls", -- bash
+      --   "clangd", -- C++
+      --   "jsonls", -- json
+      "lua_ls", -- lua
+      --   "marksman", -- markdown
+      --   "neocmake", -- cmake
+      --   "ruff_lsp", -- python linter and code formatter written in rust
+      --   "taplo", -- TOML
+      --   "yamlls", -- YAML
     },
-    -- customize language server configuration options passed to `lspconfig`
+    -- configure language server for `lspconfig` (`:h lspconfig-setup`)
     ---@diagnostic disable: missing-fields
     config = {
-      -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      --   clangd = {
+      --     capabilities = {
+      --       offsetEncoding = "utf-8",
+      --     },
+      --   },
     },
     -- customize how language servers are attached
     handlers = {
       -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
-      -- function(server, opts) require("lspconfig")[server].setup(opts) end
+      -- function(server, opts) require("lspconfig")[server].setup(opts) end,
 
       -- the key is the server that is being setup with `lspconfig`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server

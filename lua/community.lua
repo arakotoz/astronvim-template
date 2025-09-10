@@ -20,7 +20,9 @@ return {
   -- colorscheme
   { import = "astrocommunity.colorscheme.everforest" },
   -- completion
-  { import = "astrocommunity.completion.coq_nvim" },
+  { import = "astrocommunity.completion.blink-cmp" },
+  -- diagnostics
+  { import = "astrocommunity.diagnostics.trouble-nvim" },
   -- editing support
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
   -- git
