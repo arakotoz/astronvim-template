@@ -258,7 +258,8 @@ return {
             texlab = {
               auxDirectory = ".",
               -- bibtexFormatter = "bibtex-tidy",
-              bibtexFormatter = "tex-fmt",
+              -- bibtexFormatter = "tex-fmt",
+              bibtexFormatter = "texlab",
               build = {
                 executable = "tectonic",
                 args = {
