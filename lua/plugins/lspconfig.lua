@@ -150,8 +150,6 @@ return {
             "ruff", -- python linter and code formatter written in rust (already in community.lua)
             "taplo", -- TOML (already in community.lua)
             "yamlls", -- YAML (already in community.lua),
-            -- latex
-            "texlab",
           },
           -- configure language server for `lspconfig` (`:h lspconfig-setup`)
           ---@diagnostic disable: missing-fields
@@ -279,7 +277,6 @@ return {
           "mason-org/mason.nvim",
           opts = function(_, opts)
             require("astrocore").list_insert_unique(opts.ensure_installed, {
-              "bibtex-tidy",
               "latexindent",
               "tectonic",
               "tex-fmt",
@@ -301,45 +298,45 @@ return {
             require("astrolsp").lsp_setup(server)
           end,
           -- Next, you can provide targeted overrides for specific servers.
-          ["texlab"] = function()
-            require("lspconfig").texlab.setup {
-              cmd = { "texlab" },
-              filetypes = { "tex", "bib" },
-              -- root_dir = function(filename)
-              --   local path = "util.path"
-              --   return path.dirname(filename)
-              -- end,
-              settings = {
-                texlab = {
-                  auxDirectory = ".",
-                  bibtexFormatter = "bibtex-tidy",
-                  build = {
-                    executable = "tectonic",
-                    args = {
-                      "-X",
-                      "compile",
-                      "%f",
-                      "--synctex",
-                      "--keep-logs",
-                      "--keep-intermediates",
-                    },
-                    forwardSearchAfter = true,
-                    onSave = true,
-                  },
-                  chktex = {
-                    onEdit = false,
-                    onOpenAndSave = false,
-                  },
-                  diagnosticsDelay = 300,
-                  formatterLineLength = 80,
-                  latexFormatter = "tex-fmt",
-                  latexindent = {
-                    modifyLineBreaks = false,
-                  },
-                },
-              },
-            }
-          end,
+          --   ["texlab"] = function()
+          --     require("lspconfig").texlab.setup {
+          --       cmd = { "texlab" },
+          --       filetypes = { "tex", "bib", ".cls", ".sty" },
+          --       -- root_dir = function(filename)
+          --       --   local path = "util.path"
+          --       --   return path.dirname(filename)
+          --       -- end,
+          --       settings = {
+          --         texlab = {
+          --           auxDirectory = ".",
+          --           bibtexFormatter = "tex-fmt",
+          --           build = {
+          --             executable = "tectonic",
+          --             args = {
+          --               "-X",
+          --               "compile",
+          --               "%f",
+          --               "--synctex",
+          --               "--keep-logs",
+          --               "--keep-intermediates",
+          --             },
+          --             forwardSearchAfter = true,
+          --             onSave = true,
+          --           },
+          --           chktex = {
+          --             onEdit = false,
+          --             onOpenAndSave = false,
+          --           },
+          --           diagnosticsDelay = 300,
+          --           formatterLineLength = 80,
+          --           latexFormatter = "tex-fmt",
+          --           latexindent = {
+          --             modifyLineBreaks = false,
+          --           },
+          --         },
+          --       },
+          --     }
+          --   end,
         },
       },
       config = function(_, opts)
@@ -377,6 +374,43 @@ return {
     config = function()
       -- set up servers configured with AstroLSP
       vim.tbl_map(require("astrolsp").lsp_setup, require("astrolsp").config.servers)
+      require("lspconfig").texlab.setup {
+        cmd = { "texlab" },
+        filetypes = { "tex", "bib", ".cls", ".sty" },
+        root_dir = function(filename) return vim.fs.dirname(filename) end,
+        settings = {
+          texlab = {
+            auxDirectory = ".",
+            bibtexFormatter = "tex-fmt",
+            build = {
+              executable = "tectonic",
+              args = {
+                "-X",
+                "compile",
+                "%f",
+                "--synctex",
+                "--keep-logs",
+                "--keep-intermediates",
+              },
+              forwardSearchAfter = true,
+              onSave = true,
+            },
+            chktex = {
+              onEdit = false,
+              onOpenAndSave = false,
+            },
+            diagnosticsDelay = 300,
+            formatterLineLength = 80,
+            forwardSearch = {
+              args = {},
+            },
+            latexFormatter = "tex-fmt",
+            latexindent = {
+              modifyLineBreaks = false,
+            },
+          },
+        },
+      }
     end,
   },
 }
