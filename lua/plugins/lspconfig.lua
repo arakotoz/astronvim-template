@@ -149,7 +149,9 @@ return {
             "neocmake", -- cmake (already in community.lua)
             "ruff", -- python linter and code formatter written in rust (already in community.lua)
             "taplo", -- TOML (already in community.lua)
-            "yamlls", -- YAML (already in community.lua)
+            "yamlls", -- YAML (already in community.lua),
+            -- latex
+            "texlab",
           },
           -- configure language server for `lspconfig` (`:h lspconfig-setup`)
           ---@diagnostic disable: missing-fields
