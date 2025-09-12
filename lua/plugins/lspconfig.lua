@@ -151,54 +151,6 @@ return {
             "taplo", -- TOML (already in community.lua)
             "yamlls", -- YAML (already in community.lua)
           },
-          -- Extra configuration for the `mason-lspconfig.nvim` plugin
-          mason_lspconfig = {
-            -- Allow registering more Mason packages as language servers for autodetection/setup
-            servers = {
-              -- The key is the lspconfig server name to register a package for
-              texlab = {
-                -- The Mason package name to register to the language server
-                package = "texlab",
-                -- The filetypes that apply to the package and language server
-                filetypes = { "tex", "bib" },
-                -- (Optional) any default configuration changes that may need to happen (can be a table or a function that returns a table)
-                config = {
-                  -- cmd = { "texlab" },
-                  settings = {
-                    texlab = {
-                      auxDirectory = ".",
-                      -- bibtexFormatter = "bibtex-tidy",
-                      -- bibtexFormatter = "tex-fmt",
-                      bibtexFormatter = "texlab",
-                      build = {
-                        executable = "tectonic",
-                        args = {
-                          "-X",
-                          "compile",
-                          "%f",
-                          "--synctex",
-                          "--keep-logs",
-                          "--keep-intermediates",
-                        },
-                        forwardSearchAfter = true,
-                        onSave = true,
-                      },
-                      chktex = {
-                        onEdit = false,
-                        onOpenAndSave = false,
-                      },
-                      diagnosticsDelay = 300,
-                      formatterLineLength = 80,
-                      latexFormatter = "tex-fmt",
-                      latexindent = {
-                        modifyLineBreaks = false,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
           -- configure language server for `lspconfig` (`:h lspconfig-setup`)
           ---@diagnostic disable: missing-fields
           config = {
@@ -321,34 +273,72 @@ return {
     {
       "mason-org/mason-lspconfig.nvim", -- MUST be set up before `nvim-lspconfig`
       dependencies = {
-        { "mason-org/mason.nvim", opts = {} },
+        {
+          "mason-org/mason.nvim",
+          opts = function(_, opts)
+            require("astrocore").list_insert_unique(opts.ensure_installed, {
+              "bibtex-tidy",
+              "latexindent",
+              "tectonic",
+              "tex-fmt",
+            })
+          end,
+        },
 
         -- Useful status updates for LSP.
         { "j-hui/fidget.nvim", opts = {} },
       },
       opts = {
         ensure_installed = {
-          -- list of language servers
-          -- except the ones used for LaTeX and CMake
-          -- "basedpyright", -- python static type checker (already in community.lua)
-          -- "bashls", -- bash (already in community.lua)
-          -- "clangd", -- C++ (already in community.lua)
-          -- "jsonls", -- json (already in community.lua)
-          -- "lua_ls", -- lua (already in community.lua)
-          -- "marksman", -- markdown (already in community.lua)
-          -- "neocmake", -- cmake (already in community.lua)
-          -- "ruff", -- python linter and code formatter written in rust (already in community.lua)
-          -- "taplo", -- TOML (already in community.lua)
-          -- "yamlls", -- YAML (already in community.lua)
-          --- needed for latex/tectonic setup
-          "bibtex-tidy",
-          "latexindent",
-          "tectonic",
-          "tex-fmt",
+          -- language server needed for latex/tectonic setup
           "texlab",
         },
         -- use AstroLSP setup for mason-lspconfig
-        handlers = { function(server) require("astrolsp").lsp_setup(server) end },
+        handlers = {
+          function(server) -- default handler
+            require("astrolsp").lsp_setup(server)
+          end,
+          -- Next, you can provide targeted overrides for specific servers.
+          ["texlab"] = function()
+            require("lspconfig").texlab.setup {
+              cmd = { "texlab" },
+              filetypes = { "tex", "bib" },
+              -- root_dir = function(filename)
+              --   local path = "util.path"
+              --   return path.dirname(filename)
+              -- end,
+              settings = {
+                texlab = {
+                  auxDirectory = ".",
+                  bibtexFormatter = "bibtex-tidy",
+                  build = {
+                    executable = "tectonic",
+                    args = {
+                      "-X",
+                      "compile",
+                      "%f",
+                      "--synctex",
+                      "--keep-logs",
+                      "--keep-intermediates",
+                    },
+                    forwardSearchAfter = true,
+                    onSave = true,
+                  },
+                  chktex = {
+                    onEdit = false,
+                    onOpenAndSave = false,
+                  },
+                  diagnosticsDelay = 300,
+                  formatterLineLength = 80,
+                  latexFormatter = "tex-fmt",
+                  latexindent = {
+                    modifyLineBreaks = false,
+                  },
+                },
+              },
+            }
+          end,
+        },
       },
       config = function(_, opts)
         -- Diagnostic Config
@@ -379,10 +369,6 @@ return {
             end,
           },
         }
-
-        -- Optionally tell AstroLSP to register new language servers before calling the `setup` function
-        -- this enables the `mason-lspconfig.servers` option in the AstroLSP configuration
-        require("astrolsp.mason_lspconfig").register_servers()
         require("mason-lspconfig").setup(opts)
       end,
     },
